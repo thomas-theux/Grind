@@ -7,50 +7,77 @@ public class PlayerController : MonoBehaviour {
 
     public int playerID = 0;
 
-    public GameObject BoardGO;
+    public Camera PlayerCamera;
 
-    public float directionValue = 0.0f;
-    public float addedPush = 0.1f;
-    public float smooth = 5.0f;
+    public GameObject BoardGO;
+    public GameObject GrindParticles;
+    private Rigidbody rb;
+
+    public bool didBail = false;
+
+    private float torque = 1.0f;
+    private float pushFromRail = 250.0f;
+
+    private float zAngle;
+    private float MaxZAngle = 30.0f;
+    private float maxAngleRange = 90.0f;
+    private float fullCircleAngle = 360.0f;
 
     private Player player;
 
     // REWIRED
-    private bool dPadLeft = false;
-    private bool dPadRight = false;
+    private float horizontal;
 
 
     private void Awake() {
         player = ReInput.players.GetPlayer(playerID);
+        rb = BoardGO.GetComponent<Rigidbody>();
     }
 
 
-    private void Update() {
-        GetInput();
-        ProcessInput();
-        BoardRotation();
+    private void FixedUpdate() {
+        if (!didBail) {
+            GetInput();
+            BoardRotation();
+            CheckForAngle();
+        }
     }
 
 
     private void GetInput() {
-        dPadLeft = player.GetButton("Left");
-        dPadRight = player.GetButton("Right");
-    }
-
-
-    private void ProcessInput() {
-        if (dPadLeft) {
-            directionValue -= addedPush;
-        }
-        
-        if (dPadRight) {
-            directionValue += addedPush;
-        }
+        horizontal = player.GetAxis("Horizontal");
     }
 
 
     private void BoardRotation() {
-        BoardGO.transform.Rotate(0, 0, -directionValue);
+        rb.AddTorque(transform.forward * torque * -horizontal);
+    }
+
+
+    private void CheckForAngle() {
+        zAngle = BoardGO.transform.localEulerAngles.z;
+
+        bool bailLeft = zAngle > MaxZAngle && zAngle < maxAngleRange;
+        bool bailRight = zAngle < fullCircleAngle - MaxZAngle && zAngle > fullCircleAngle - maxAngleRange;
+
+        if (bailLeft || bailRight) {
+            int whichSide;
+
+            if (bailLeft) whichSide = -1;
+            else whichSide = 1;
+
+            ThrowOffBalance(whichSide);
+        }
+    }
+
+
+    private void ThrowOffBalance(int whichSide) {
+        didBail = true;
+        rb.useGravity = true;
+
+        rb.AddForce(transform.right * pushFromRail * whichSide);
+
+        GrindParticles.SetActive(false);
     }
 
 }
