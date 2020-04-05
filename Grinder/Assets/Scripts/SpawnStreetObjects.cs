@@ -39,11 +39,19 @@ public class SpawnStreetObjects : MonoBehaviour {
     private void SpawnNewPost() {
         GameObject newPost = Instantiate(RailPostGO);
         newPost.transform.parent = RailPostContainer.transform;
-        newPost.GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
 
-        GameObject newBushes = Instantiate(BushesGO);
-        newBushes.transform.parent = BushesContainer.transform;
-        newBushes.GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
+        newPost.transform.localPosition = new Vector3(
+            newPost.transform.position.x,
+            newPost.transform.position.y,
+            newPost.transform.position.z
+        );
+
+        newPost.GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
+        newPost.transform.GetChild(0).GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
+
+        // GameObject newBushes = Instantiate(BushesGO);
+        // newBushes.transform.parent = BushesContainer.transform;
+        // newBushes.GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
 
         StartCoroutine(SpawnDelayRailPost());
     }
@@ -62,7 +70,15 @@ public class SpawnStreetObjects : MonoBehaviour {
     private void SpawnNewStreetTape() {
         GameObject newStreetTape = Instantiate(StreetTapeGO);
         newStreetTape.transform.parent = StreetTapeContainer.transform;
+
+        newStreetTape.transform.localPosition = new Vector3(
+            newStreetTape.transform.position.x,
+            newStreetTape.transform.position.y,
+            newStreetTape.transform.position.z
+        );
+
         newStreetTape.GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
+        newStreetTape.transform.GetChild(0).GetComponent<StreetObjectMover>().PlayerControllerScript = playerControllerScript;
 
         StartCoroutine(SpawnDelayStreetTape());
     }

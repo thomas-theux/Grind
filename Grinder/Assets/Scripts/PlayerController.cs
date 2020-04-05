@@ -5,9 +5,9 @@ using Rewired;
 
 public class PlayerController : MonoBehaviour {
 
-    public int playerID = 0;
+    public int PlayerID = 0;
 
-    // public Camera PlayerCamera;
+    public Camera PlayerCamera;
     public GameObject BoardGO;
     public GameObject GrindParticles;
 
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 
 
     private void Start() {
-        player = ReInput.players.GetPlayer(playerID);
+        player = ReInput.players.GetPlayer(PlayerID);
         rb = BoardGO.GetComponent<Rigidbody>();
     }
 
