@@ -7,18 +7,26 @@ public class PlayerController : MonoBehaviour {
 
     public int playerID = 0;
 
-    public Camera PlayerCamera;
-
+    // public Camera PlayerCamera;
     public GameObject BoardGO;
     public GameObject GrindParticles;
+
     private Rigidbody rb;
 
     public bool didBail = false;
 
-    private float torque = 1.0f;
-    private float pushFromRail = 250.0f;
+    private int currentSide = 0;
 
-    private float zAngle;
+    private float torque = 1.0f;
+    private float pushFromRail = 750.0f;
+    private float megaPush = 3000.0f;
+    private float extraForce;
+    private float extraForceSpeed = 50.0f;  // the higher the easier
+
+    private float manualForce;
+    private float addedForce;
+
+    private float zAngle = 0;
     private float MaxZAngle = 30.0f;
     private float maxAngleRange = 90.0f;
     private float fullCircleAngle = 360.0f;
@@ -29,7 +37,7 @@ public class PlayerController : MonoBehaviour {
     private float horizontal;
 
 
-    private void Awake() {
+    private void Start() {
         player = ReInput.players.GetPlayer(playerID);
         rb = BoardGO.GetComponent<Rigidbody>();
     }
@@ -38,8 +46,13 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate() {
         if (!didBail) {
             GetInput();
-            BoardRotation();
+            
+            CalculateManualForce();
+            CalculateAddedForce();
+            ApplyOverallForce();
+
             CheckForAngle();
+            CheckCurrentSide();
         }
     }
 
@@ -49,8 +62,25 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    private void BoardRotation() {
-        rb.AddTorque(transform.forward * torque * -horizontal);
+    private void CalculateManualForce() {
+        manualForce = -horizontal;
+    }
+
+
+    private void CalculateAddedForce() {
+        extraForce += (Time.deltaTime / extraForceSpeed);
+        addedForce = (extraForce * -currentSide);
+    }
+
+
+    private void ApplyOverallForce() {
+        rb.AddTorque(transform.forward * torque * (manualForce + addedForce));
+    }
+
+
+    private void CheckCurrentSide() {
+        if (zAngle >= 0 && zAngle < 180) currentSide = -1;
+        else if (zAngle < 360 && zAngle > 180) currentSide = 1;
     }
 
 
@@ -61,21 +91,20 @@ public class PlayerController : MonoBehaviour {
         bool bailRight = zAngle < fullCircleAngle - MaxZAngle && zAngle > fullCircleAngle - maxAngleRange;
 
         if (bailLeft || bailRight) {
-            int whichSide;
-
-            if (bailLeft) whichSide = -1;
-            else whichSide = 1;
-
-            ThrowOffBalance(whichSide);
+            ThrowOffBalance();
         }
     }
 
 
-    private void ThrowOffBalance(int whichSide) {
+    private void ThrowOffBalance() {
         didBail = true;
         rb.useGravity = true;
 
-        rb.AddForce(transform.right * pushFromRail * whichSide);
+        // Push forward
+        // rb.AddForce(transform.forward * megaPush);
+
+        // Push board off the side where it was going
+        rb.AddForce(transform.right * pushFromRail * currentSide);
 
         GrindParticles.SetActive(false);
     }
