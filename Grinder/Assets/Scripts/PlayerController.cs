@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using TMPro;
 
 public class PlayerController : MonoBehaviour {
 
     public int PlayerID = 0;
 
+    private Rigidbody rb;
+
     public Camera PlayerCamera;
     public GameObject BoardGO;
     public GameObject GrindParticles;
 
-    private Rigidbody rb;
+    public TMP_Text PlayerCountDown;
+    public TMP_Text PlayerScoreText;
+    public TMP_Text BoardslideText;
+    public GameObject BackgroundImage;
+
+    private int playerScore = 0;
+    private int pointsPerFrame = 10;
 
     public bool didBail = false;
 
@@ -40,19 +49,25 @@ public class PlayerController : MonoBehaviour {
     private void Start() {
         player = ReInput.players.GetPlayer(PlayerID);
         rb = BoardGO.GetComponent<Rigidbody>();
+
+        AudioManager.instance.Play("Grinding");
     }
 
 
     private void FixedUpdate() {
         if (!didBail) {
-            GetInput();
+            if (GameSettings.NavigationMode == 2) {
+                GetInput();
             
-            CalculateManualForce();
-            CalculateAddedForce();
-            ApplyOverallForce();
+                CalculateManualForce();
+                CalculateAddedForce();
+                ApplyOverallForce();
 
-            CheckForAngle();
-            CheckCurrentSide();
+                CheckForAngle();
+                CheckCurrentSide();
+
+                IncreasePoints();
+            }
         }
     }
 
@@ -78,12 +93,6 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    private void CheckCurrentSide() {
-        if (zAngle >= 0 && zAngle < 180) currentSide = -1;
-        else if (zAngle < 360 && zAngle > 180) currentSide = 1;
-    }
-
-
     private void CheckForAngle() {
         zAngle = BoardGO.transform.localEulerAngles.z;
 
@@ -96,17 +105,60 @@ public class PlayerController : MonoBehaviour {
     }
 
 
+    private void CheckCurrentSide() {
+        if (zAngle >= 0 && zAngle < 180) currentSide = -1;
+        else if (zAngle < 360 && zAngle > 180) currentSide = 1;
+    }
+
+
+    private void IncreasePoints() {
+        playerScore += pointsPerFrame;
+        PlayerScoreText.text = playerScore.ToString("N0");
+    }
+
+
     private void ThrowOffBalance() {
         didBail = true;
         rb.useGravity = true;
 
+        AudioManager.instance.Stop("Grinding");
+        AudioManager.instance.Play("Bail");
+
         // Push forward
-        // rb.AddForce(transform.forward * megaPush);
+        rb.AddForce(transform.forward * megaPush);
 
         // Push board off the side where it was going
         rb.AddForce(transform.right * pushFromRail * currentSide);
 
         GrindParticles.SetActive(false);
+
+        TimeManager.BailedPlayers++;
+
+        if (TimeManager.BailedPlayers == GameSettings.PlayerCount) {
+            TimeManager.EndLevel();
+        }
+    }
+
+
+    public void DisplayResults() {
+        StartCoroutine(DisplayAfterDelay());
+    }
+
+
+    private IEnumerator DisplayAfterDelay() {
+        yield return new WaitForSeconds(1.0f);
+
+        AudioManager.instance.Play("Score");
+
+        BackgroundImage.SetActive(true);
+
+        RectTransform newRect = PlayerScoreText.GetComponent<RectTransform>();
+        newRect.anchorMin = new Vector2(0.5f, 0.5f);
+        newRect.anchorMax = new Vector2(0.5f, 0.5f);
+        newRect.pivot = new Vector2(0.5f, 0.5f);
+
+        PlayerScoreText.fontSize = 60;
+        BoardslideText.enabled = false;
     }
 
 }

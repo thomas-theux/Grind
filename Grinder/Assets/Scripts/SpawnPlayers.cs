@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SpawnPlayers : MonoBehaviour {
 
     public GameObject PlayerInstance;
+
+    public static List<GameObject> AllPlayersArr = new List<GameObject>();
+    public static List<TMP_Text> PlayerCountDowns = new List<TMP_Text>();
 
     private float spawnDistance = 100.0f;
 
@@ -29,11 +33,19 @@ public class SpawnPlayers : MonoBehaviour {
             );
 
             Camera playerCam = newPlayer.GetComponent<PlayerController>().PlayerCamera;
-
             float camX = camWidth * i;
-
             playerCam.rect = new Rect(camX, camY, camWidth, camHeight);
+
+            PlayerCountDowns.Add(playerControllerScript.PlayerCountDown);
+
+            AllPlayersArr.Add(newPlayer);
         }
+    }
+
+
+    public static void CleanSpawnPlayers() {
+        AllPlayersArr.Clear();
+        PlayerCountDowns.Clear();
     }
 
 }
