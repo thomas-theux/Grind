@@ -9311,6 +9311,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -9476,6 +9481,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -9556,6 +9566,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -9796,6 +9811,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -10131,6 +10151,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -10551,6 +10576,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -10716,6 +10746,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
@@ -11136,6 +11171,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6530777791667065099, guid: d7220d6e80d034a229ab80e89f08fe2b,
+        type: 3}
+      propertyPath: PlayerControllerScript
+      value: 
+      objectReference: {fileID: 4380310733170978633}
     - target: {fileID: 7630906590173719427, guid: d7220d6e80d034a229ab80e89f08fe2b,
         type: 3}
       propertyPath: PlayerControllerScript
